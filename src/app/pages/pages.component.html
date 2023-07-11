@@ -1,0 +1,31 @@
+<ng-container *ngIf="!isOverPuzzle">
+  <!-- image -->
+  <div class="category-section mt-20">
+    <app-image />
+  </div>
+  <!-- game board -->
+  <div class="board-section mt-20">
+    <app-game-board (isOver)="receiveData($event)" />
+  </div>
+  <!-- stats -->
+  <!-- <app-stats [time]="time" [moves]="moves" [fails]="fails"></app-stats> -->
+</ng-container>
+
+<ng-container *ngIf="isOverPuzzle">
+  <div class="confetti">
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="confetti-piece"></div>
+    <div class="icon">Congratulations</div>
+  </div>
+</ng-container>

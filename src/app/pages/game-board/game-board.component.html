@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <div class="board" [class.over]="over">
+    <div *ngFor="let piece of imgPieces;" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
+      [class.placed]="!piece.misplaced" class="dropzone" [id]="piece.index">
+    </div>
+  </div>
+
+</div>
+<div class="img-wrapper">
+  <div *ngFor="let image of images" class="img-item m-5">
+    <img [src]="'assets/images/img-piece/' + image.src" [id]="image.id" draggable="true" (dragstart)="onDrag($event)">
+  </div>
+</div>
