@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IMAGE_LIST_DATA } from 'src/app/core/constants/image.constant';
+import { IMAGE_LIST_DATA, MessageType } from 'src/app/core/constants/image.constant';
+import { PuzzlePiece } from 'src/app/core/models/image.model';
 import { ImagesService } from 'src/app/core/services/images.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-game-board',
@@ -12,32 +13,23 @@ import { ImagesService } from 'src/app/core/services/images.service';
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
-export class GameBoardComponent implements OnInit {
+export class GameBoardComponent {
 
   imgPieces = IMAGE_LIST_DATA;
-  images: any[] = [];
   dragged: any;
-  over: boolean = false;
+  over = false;
+
+  @Input() pieceWidth!: number;
+  @Input() pieceHeight!: number;
+  @Input() pieces!: PuzzlePiece[];
 
   @Output() isOver = new EventEmitter();
 
   constructor(
     public sanitizer: DomSanitizer,
     public imageService: ImagesService,
-    public http: HttpClient
+    public snackbarService: SnackbarService
   ) { }
-
-  ngOnInit(): void {
-    this.getImages();
-  }
-
-  getImages(): void {
-    this.imageService.getImages().subscribe({
-      next: (imgList: any) => {
-        this.images = imgList;
-      }
-    })
-  }
 
   onDrag(ev: DragEvent): void {
     ev.dataTransfer?.setData("index", (<HTMLElement>ev.target)?.id);
@@ -48,16 +40,25 @@ export class GameBoardComponent implements OnInit {
     ev.preventDefault();
     const dropTarget = document.getElementById(ev.target.id);
 
-    if (dropTarget?.hasChildNodes()) {
-      alert('You can not place two piece at same place');
+    if (dropTarget && dropTarget.parentElement && dropTarget.parentElement?.className !== 'board') {
+      this.snackbarService.showSnackbar('You can not place two piece at same place', MessageType.danger);
       return;
     }
-    if (dropTarget?.id === this.dragged.id) {
+
+    if (dropTarget?.hasChildNodes()) {
+      this.snackbarService.showSnackbar('You can not place two piece at same place', MessageType.danger);
+      return;
+    }
+    if (!this.imgPieces[this.dragged.id].misplaced) {
+      this.snackbarService.showSnackbar('You can not move solved puzzle', MessageType.danger);
+      return;
+    }
+    const drop_id = ev.target.id.split("_").at(-1);
+    if (drop_id === this.dragged.id) {
       this.imgPieces[this.dragged.id].misplaced = false;
     }
-    const data = ev.dataTransfer.getData("index");
-    const ele = document.getElementById(data);
-    ele?.classList.remove('m-5');
+    this.dragged.classList.remove('m-2');
+
     this.dragged.remove(this.dragged);
     ev.target.appendChild(this.dragged);
     this.checkOver();

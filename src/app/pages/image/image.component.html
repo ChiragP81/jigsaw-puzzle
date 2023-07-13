@@ -1,4 +1,12 @@
-<div class="img-container">
-  <h3 class="text-center ">Category Image</h3>
-  <img src="assets/images/main-image.png" class="category-img" alt="logo-image">
-</div>
+<ng-container *ngIf="!puzzleImage">
+  <div class="justify-center uploader">
+    <label class="choose-btn" for="previewImage">Browse</label>
+    <input type="file" id="previewImage" accept="image/*" (change)="onImageUpload($event)" hidden>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="puzzleImage">
+  <div class="image-container">
+    <img [src]="puzzleImage" [alt]="imgName">
+  </div>
+</ng-container>

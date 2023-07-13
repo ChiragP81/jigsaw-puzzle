@@ -1,0 +1,27 @@
+.snackbar-wrap {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 5px;
+  border-radius: 5px;
+  min-width: 20%;
+  transform-origin: center center;
+  background-color: #fff;
+
+  &.success {
+    border-left: 5px solid rgb(0, 173, 72);
+    color: rgb(0, 173, 72);
+  }
+
+  &.danger {
+    border-left: 5px solid rgb(241, 56, 23);
+    color: rgb(241, 56, 23);
+  }
+
+  .snackbar-text {
+    text-align: center;
+    font-size: 16px;
+    font-family: 'system-ui', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+  }
+}

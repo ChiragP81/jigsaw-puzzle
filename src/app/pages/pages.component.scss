@@ -2,6 +2,19 @@
   margin-top: 20px;
 }
 
+.close-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.justify-end {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
 $yellow: #ffd300;
 $blue: #17d3ff;
 $pink: #ff4e91;
@@ -86,6 +99,6 @@ $duration: 1000;
   }
 
   to {
-    transform: translateY(200px);
+    transform: translateY(500px);
   }
 }

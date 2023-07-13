@@ -1,66 +1,74 @@
 export const IMAGE_LIST_DATA = [
   {
-    "index": 0,
+    "index": "drg_0",
     "misplaced": true,
   },
   {
-    "index": 1,
+    "index": "drg_1",
     "misplaced": true,
   },
   {
-    "index": 2,
+    "index": "drg_2",
     "misplaced": true,
   },
   {
-    "index": 3,
+    "index": "drg_3",
     "misplaced": true,
   },
   {
-    "index": 4,
+    "index": "drg_4",
     "misplaced": true,
   },
   {
-    "index": 5,
+    "index": "drg_5",
     "misplaced": true,
   },
   {
-    "index": 6,
+    "index": "drg_6",
     "misplaced": true,
   },
   {
-    "index": 7,
+    "index": "drg_7",
     "misplaced": true,
   },
   {
-    "index": 8,
+    "index": "drg_8",
     "misplaced": true,
   },
   {
-    "index": 9,
+    "index": "drg_9",
     "misplaced": true,
   },
   {
-    "index": 10,
+    "index": "drg_10",
     "misplaced": true,
   },
   {
-    "index": 11,
+    "index": "drg_11",
     "misplaced": true,
   },
   {
-    "index": 12,
+    "index": "drg_12",
     "misplaced": true,
   },
   {
-    "index": 13,
+    "index": "drg_13",
     "misplaced": true,
   },
   {
-    "index": 14,
+    "index": "drg_14",
     "misplaced": true,
   },
   {
-    "index": 15,
+    "index": "drg_15",
     "misplaced": true,
   }
 ]
+
+export const IMAGE_WIDTH = 400;
+export const IMAGE_HEIGHT = 400;
+
+export enum MessageType {
+  success = "success",
+  danger = "danger"
+}
