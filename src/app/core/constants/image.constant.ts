@@ -1,67 +1,83 @@
 export const IMAGE_LIST_DATA = [
   {
     "index": "drg_0",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_1",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_2",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_3",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_4",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_5",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_6",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_7",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_8",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_9",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_10",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_11",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_12",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_13",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_14",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   },
   {
     "index": "drg_15",
-    "misplaced": true,
+    "isValidPlaced": false,
+    "placed": false
   }
 ]
 

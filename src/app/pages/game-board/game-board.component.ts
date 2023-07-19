@@ -17,14 +17,15 @@ export class GameBoardComponent implements OnChanges {
 
   imgPieces = IMAGE_LIST_DATA;
   dragged: any;
-  over = false;
+  puzzleSolved = false;
+  puzzleOver = false;
 
   @Input() pieceWidth!: number;
   @Input() pieceHeight!: number;
   @Input() pieces!: PuzzlePiece[];
   @Input() isReset!: boolean;
 
-  @Output() isOver = new EventEmitter();
+  @Output() isSolved = new EventEmitter();
 
   constructor(
     public sanitizer: DomSanitizer,
@@ -42,8 +43,16 @@ export class GameBoardComponent implements OnChanges {
       if (imageEle?.hasChildNodes()) {
         imageEle.replaceChildren();
       }
+      img.isValidPlaced = false;
+      img.placed = false;
+      const newImage = {
+        ...img,
+        isValidPlaced: false,
+        placed: false
+      }
+      img = newImage;
     })
-    this.imgPieces.forEach((img) => img.misplaced = true);
+    this.checkPuzzleOver();
   }
 
   onDrag(ev: DragEvent): void {
@@ -64,27 +73,34 @@ export class GameBoardComponent implements OnChanges {
       this.snackbarService.showSnackbar('You can not place two piece at same place', MessageType.error);
       return;
     }
-    if (!this.imgPieces[this.dragged.id].misplaced) {
+    if (this.imgPieces[this.dragged.id].isValidPlaced) {
       this.snackbarService.showSnackbar('You can not move solved puzzle', MessageType.error);
       return;
     }
     const drop_id = (<HTMLElement>ev.target)?.id.split("_").at(-1);
     if (drop_id === this.dragged.id) {
-      this.imgPieces[this.dragged.id].misplaced = false;
+      this.imgPieces[this.dragged.id].isValidPlaced = true;
     }
+    this.imgPieces[this.dragged.id].placed = true;
     this.dragged.classList.remove('m-2');
     this.dragged.remove(this.dragged);
     (<HTMLElement>ev.target).appendChild(this.dragged);
-    this.checkOver();
-    this.isOver.emit(this.over);
+    this.checkPuzzleSolved();
+    this.checkPuzzleOver();
+    this.isSolved.emit(this.puzzleSolved);
   }
 
   onDragOver(ev: DragEvent): void {
     ev.preventDefault();
   }
 
-  checkOver(): boolean {
-    this.over = this.imgPieces.every((e) => !e.misplaced);
-    return this.over;
+  checkPuzzleSolved(): boolean {
+    this.puzzleSolved = this.imgPieces.every((e) => e.isValidPlaced);
+    return this.puzzleSolved;
+  }
+
+  checkPuzzleOver(): boolean {
+    this.puzzleOver = this.imgPieces.every((e) => e.placed);
+    return this.puzzleOver;
   }
 }

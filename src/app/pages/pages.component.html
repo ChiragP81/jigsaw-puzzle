@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isOverPuzzle">
+<ng-container *ngIf="!isPuzzleSolved">
   <!-- image -->
   <div class="category-section mt-20">
     <app-image (pieceHeight)="getPieceHeight($event)" (pieceWidth)="getPieceWidth($event)"
@@ -7,7 +7,7 @@
   <!-- game board -->
   <ng-container *ngIf="puzzlePiece.length">
     <div class="board-section mt-20">
-      <app-game-board (isOver)="receiveData($event)" [pieceWidth]="pieceWidth" [pieces]="puzzlePiece"
+      <app-game-board (isSolved)="receiveData($event)" [pieceWidth]="pieceWidth" [pieces]="puzzlePiece"
         [pieceHeight]="pieceHeight" [isReset]="isPuzzleReset" />
     </div>
   </ng-container>
@@ -15,7 +15,7 @@
   <!-- <app-stats [time]="time" [moves]="moves"></app-stats> -->
 </ng-container>
 
-<ng-container *ngIf="isOverPuzzle">
+<ng-container *ngIf="isPuzzleSolved">
   <div class="justify-end">
     <button class="close-btn" (click)="onClose()">
       <i class="fa-regular fa-circle-xmark"></i>

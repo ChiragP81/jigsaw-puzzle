@@ -1,7 +1,7 @@
 <div class="wrapper">
-  <div class="board" [class.over]="over">
+  <div class="board" [class.solved]="puzzleSolved">
     <div *ngFor="let piece of imgPieces;" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
-      [class.placed]="!piece.misplaced" class="dropzone" [id]="piece.index">
+      [class.placed]="piece.isValidPlaced" class="dropzone" [id]="piece.index">
     </div>
   </div>
 </div>
@@ -11,3 +11,7 @@
     <img [src]="piece.image" alt="sample" [id]="piece.id" draggable="true" (dragstart)="onDrag($event)">
   </div>
 </div>
+
+<ng-container *ngIf="puzzleOver && !puzzleSolved">
+  <p> Oops ! You failed</p>
+</ng-container>

@@ -13,17 +13,15 @@ import { ImageComponent } from "./image/image.component";
   imports: [ImageComponent, GameBoardComponent, NgIf]
 })
 export class PagesComponent {
-  isOverPuzzle = false;
+  isPuzzleSolved = false;
   pieceHeight!: number;
   pieceWidth!: number;
   puzzlePiece: PuzzlePiece[] = [];
   isPuzzleReset = false;
-
   imgPieces = IMAGE_LIST_DATA;
 
-
   receiveData(event: boolean): void {
-    this.isOverPuzzle = event;
+    this.isPuzzleSolved = event;
   }
 
   getPieceHeight(height: number): void {
@@ -44,7 +42,14 @@ export class PagesComponent {
 
   onClose(): void {
     this.puzzlePiece = [];
-    this.isOverPuzzle = false;
-    this.imgPieces.forEach((img) => img.misplaced = true);
+    this.isPuzzleSolved = false;
+    this.imgPieces.forEach((img) => {
+      const newImage = {
+        ...img,
+        isValidPlaced: false,
+        placed: false
+      }
+      img = newImage;
+    });
   }
 }
