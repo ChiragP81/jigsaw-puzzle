@@ -2,17 +2,17 @@
   <!-- image -->
   <div class="category-section mt-20">
     <app-image (pieceHeight)="getPieceHeight($event)" (pieceWidth)="getPieceWidth($event)"
-      (puzzlePieces)="getPuzzlePiece($event)" />
+      (puzzlePieces)="getPuzzlePiece($event)" (puzzleReset)="getPuzzleResetValue($event)" />
   </div>
   <!-- game board -->
   <ng-container *ngIf="puzzlePiece.length">
     <div class="board-section mt-20">
       <app-game-board (isOver)="receiveData($event)" [pieceWidth]="pieceWidth" [pieces]="puzzlePiece"
-        [pieceHeight]="pieceHeight" />
+        [pieceHeight]="pieceHeight" [isReset]="isPuzzleReset" />
     </div>
   </ng-container>
   <!-- stats -->
-  <!-- <app-stats [time]="time" [moves]="moves" [fails]="fails"></app-stats> -->
+  <!-- <app-stats [time]="time" [moves]="moves"></app-stats> -->
 </ng-container>
 
 <ng-container *ngIf="isOverPuzzle">

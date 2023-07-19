@@ -43,9 +43,17 @@
 
 .image-container {
   text-align: center;
+  min-width: 500px;
 }
 
 .justify-center {
   display: flex;
   justify-content: center;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
 }

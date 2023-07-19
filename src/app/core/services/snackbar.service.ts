@@ -10,7 +10,7 @@ export class SnackbarService {
   private snackbarSubject$ = new Subject();
   snackbarState = this.snackbarSubject$.asObservable();
 
-  showSnackbar(message: string, type: MessageType.success | MessageType.danger): void {
+  showSnackbar(message: string, type: MessageType.success | MessageType.error): void {
     this.snackbarSubject$.next({ show: true, message, type })
   }
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { IMAGE_HEIGHT, IMAGE_WIDTH, MessageType } from 'src/app/core/constants/image.constant';
+import { IMAGE_HEIGHT, IMAGE_WIDTH, MessageType, allowedFileType } from 'src/app/core/constants/image.constant';
 import { PuzzlePiece } from 'src/app/core/models/image.model';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
@@ -18,6 +18,7 @@ export class ImageComponent {
   @Output() pieceWidth = new EventEmitter();
   @Output() pieceHeight = new EventEmitter();
   @Output() puzzlePieces = new EventEmitter<PuzzlePiece[]>();
+  @Output() puzzleReset = new EventEmitter();
 
   constructor(
     private snackbarService: SnackbarService
@@ -27,6 +28,10 @@ export class ImageComponent {
     const target = event.target as HTMLInputElement;
     const file = target.files as FileList;
     if (file) {
+      if (!allowedFileType.includes(file[0].type)) {
+        this.snackbarService.showSnackbar('File type is not allowed', MessageType.error);
+        return;
+      }
       this.imgName = file[0].name;
       const reader = new FileReader();
       const img = new Image();
@@ -36,7 +41,7 @@ export class ImageComponent {
           const width = img.naturalWidth;
           const height = img.naturalHeight;
           if (width !== IMAGE_WIDTH && height !== IMAGE_HEIGHT) {
-            this.snackbarService.showSnackbar('please select proper size of image', MessageType.danger);
+            this.snackbarService.showSnackbar('please select proper size of image', MessageType.error);
             return;
           }
           this.puzzleImage = reader.result as string;
@@ -47,6 +52,11 @@ export class ImageComponent {
       reader.readAsDataURL(file[0]);
     }
 
+  }
+
+  resetPuzzle(): void {
+    this.puzzleReset.emit(true);
+    this.generatePuzzle();
   }
 
   generatePuzzle(): void {

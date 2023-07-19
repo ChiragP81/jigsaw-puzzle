@@ -8,5 +8,8 @@
 <ng-container *ngIf="puzzleImage">
   <div class="image-container">
     <img [src]="puzzleImage" [alt]="imgName">
+    <button class="close-btn" (click)="resetPuzzle()">
+      <i class="fa-solid fa-arrow-rotate-right"></i>
+    </button>
   </div>
 </ng-container>

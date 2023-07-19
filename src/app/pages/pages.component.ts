@@ -17,6 +17,7 @@ export class PagesComponent {
   pieceHeight!: number;
   pieceWidth!: number;
   puzzlePiece: PuzzlePiece[] = [];
+  isPuzzleReset = false;
 
   imgPieces = IMAGE_LIST_DATA;
 
@@ -35,6 +36,10 @@ export class PagesComponent {
 
   getPuzzlePiece(pieces: PuzzlePiece[]): void {
     this.puzzlePiece = pieces;
+  }
+
+  getPuzzleResetValue(val: boolean): void {
+    this.isPuzzleReset = val;
   }
 
   onClose(): void {

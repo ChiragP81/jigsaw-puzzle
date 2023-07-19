@@ -67,8 +67,8 @@ export const IMAGE_LIST_DATA = [
 
 export const IMAGE_WIDTH = 400;
 export const IMAGE_HEIGHT = 400;
-
+export const allowedFileType = ['image/png', 'image/jpeg', 'image/jpg'];
 export enum MessageType {
   success = "success",
-  danger = "danger"
+  error = "error"
 }
