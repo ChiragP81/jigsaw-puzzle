@@ -1,41 +1,53 @@
-<ng-container *ngIf="!isPuzzleSolved">
-  <!-- image -->
-  <div class="category-section">
-    <app-image (pieceHeight)="getPieceHeight($event)" (pieceWidth)="getPieceWidth($event)"
-      (puzzlePieces)="getPuzzlePiece($event)" (puzzleReset)="getPuzzleResetValue($event)" />
+<div class="puzzle-bg">
+  <div class="page-wrapper">
+    <ng-container *ngIf="!isPuzzleSolved">
+      <!-- image -->
+      <div class="category-section">
+        <app-image
+          (pieceHeight)="getPieceHeight($event)"
+          (pieceWidth)="getPieceWidth($event)"
+          (puzzlePieces)="getPuzzlePiece($event)"
+          (puzzleReset)="getPuzzleResetValue($event)"
+        />
+      </div>
+      <!-- game board -->
+      <ng-container *ngIf="puzzlePiece.length">
+        <div class="board-section mt-20">
+          <app-game-board
+            (isSolved)="receiveData($event)"
+            [pieceWidth]="pieceWidth"
+            [pieces]="puzzlePiece"
+            [pieceHeight]="pieceHeight"
+            [isReset]="isPuzzleReset"
+          />
+        </div>
+      </ng-container>
+      <!-- stats -->
+      <!-- <app-stats [time]="time" [moves]="moves"></app-stats> -->
+    </ng-container>
   </div>
-  <!-- game board -->
-  <ng-container *ngIf="puzzlePiece.length">
-    <div class="board-section mt-20">
-      <app-game-board (isSolved)="receiveData($event)" [pieceWidth]="pieceWidth" [pieces]="puzzlePiece"
-        [pieceHeight]="pieceHeight" [isReset]="isPuzzleReset" />
+  <ng-container *ngIf="isPuzzleSolved">
+    <div class="justify-end">
+      <button class="close-btn" (click)="onClose()">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </button>
+    </div>
+
+    <div class="confetti">
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="confetti-piece"></div>
+      <div class="icon">Congratulations</div>
     </div>
   </ng-container>
-  <!-- stats -->
-  <!-- <app-stats [time]="time" [moves]="moves"></app-stats> -->
-</ng-container>
-
-<ng-container *ngIf="isPuzzleSolved">
-  <div class="justify-end">
-    <button class="close-btn" (click)="onClose()">
-      <i class="fa-regular fa-circle-xmark"></i>
-    </button>
-  </div>
-
-  <div class="confetti">
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="icon">Congratulations</div>
-  </div>
-</ng-container>
+</div>
