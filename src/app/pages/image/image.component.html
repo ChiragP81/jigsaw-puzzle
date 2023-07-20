@@ -1,13 +1,23 @@
 <ng-container *ngIf="!puzzleImage">
-  <div class="justify-center uploader">
-    <label class="choose-btn" for="previewImage">Browse</label>
-    <input type="file" id="previewImage" accept="image/*" (change)="onImageUpload($event)" hidden>
+  <h1 class="animation-text">Jigsaw Puzzle</h1>
+  <div class="browser-btn">
+    <label class="choose-btn" for="previewImage">
+      Browse Image
+      <span class="material-symbols-outlined"> add_photo_alternate </span>
+    </label>
+    <input
+      type="file"
+      id="previewImage"
+      accept="image/*"
+      (change)="onImageUpload($event)"
+      hidden
+    />
   </div>
 </ng-container>
 
 <ng-container *ngIf="puzzleImage">
   <div class="image-container">
-    <img [src]="puzzleImage" [alt]="imgName">
+    <img [src]="puzzleImage" [alt]="imgName" />
     <button class="close-btn" (click)="resetPuzzle()">
       <i class="fa-solid fa-arrow-rotate-right"></i>
     </button>

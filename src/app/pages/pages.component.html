@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isPuzzleSolved">
   <!-- image -->
-  <div class="category-section mt-20">
+  <div class="category-section">
     <app-image (pieceHeight)="getPieceHeight($event)" (pieceWidth)="getPieceWidth($event)"
       (puzzlePieces)="getPuzzlePiece($event)" (puzzleReset)="getPuzzleResetValue($event)" />
   </div>
