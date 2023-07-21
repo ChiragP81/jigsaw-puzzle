@@ -1,54 +1,85 @@
-.uploader {
-  height: 40px;
-  padding: 0 16px;
+.animation-text {
   position: relative;
+  margin: 0 0 30px;
+  background: linear-gradient(-45deg, #ff9603, #edce6e, #edce6e, #ff9603);
+  background-size: 300%;
+  font-weight: 900;
+  font-size: 5vw;
+  line-height: 5vw;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animated_text 10s ease-in-out infinite;
+  -moz-animation: animated_text 10s ease-in-out infinite;
+  -webkit-animation: animated_text 10s ease-in-out infinite;
+}
+@keyframes animated_text {
+  0% {
+    background-position: 0px 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0px 50%;
+  }
+}
 
-
+.browser-btn {
+  position: relative;
+  text-align: center;
   .choose-btn {
+    width: 250px;
+    height: 60px;
+    line-height: 60px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    background: #ffb001;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 30px;
+    white-space: nowrap;
+    transition: all 400ms;
     cursor: pointer;
-    height: 100%;
-    line-height: 24px;
-    white-space: nowrap;
-    position: absolute;
-    border: 1px solid black;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    width: 100px;
-    font-size: 14px;
-    font-family: Geneva, Verdana, sans-serif;
-    transition: all .8s;
-  }
-
-  :hover {
-    background-color: #6728F5;
-    color: white;
-  }
-
-  .file-name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 0;
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      width: 28px;
+      height: 28px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 30px;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 1);
+      transition: all 400ms;
+    }
+    &:hover {
+      background-color: #edce6e;
+      &::before {
+        scale: 1.05 1.2;
+      }
+    }
+    input {
+      position: absolute;
+      width: 0;
+      height: 0;
+      right: 0;
+    }
   }
 }
 
 .image-container {
   text-align: center;
   min-width: 500px;
-}
-
-.justify-center {
-  display: flex;
-  justify-content: center;
 }
 
 .close-btn {
