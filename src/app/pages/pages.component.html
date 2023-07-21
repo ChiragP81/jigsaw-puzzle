@@ -1,29 +1,11 @@
 <div class="puzzle-bg">
   <div class="page-wrapper">
     <ng-container *ngIf="!isPuzzleSolved">
-      <!-- image -->
       <div class="category-section">
-        <app-image
-          (pieceHeight)="getPieceHeight($event)"
-          (pieceWidth)="getPieceWidth($event)"
-          (puzzlePieces)="getPuzzlePiece($event)"
-          (puzzleReset)="getPuzzleResetValue($event)"
-        />
-      </div>
-      <!-- game board -->
-      <ng-container *ngIf="puzzlePiece.length">
         <div class="board-section mt-20">
-          <app-game-board
-            (isSolved)="receiveData($event)"
-            [pieceWidth]="pieceWidth"
-            [pieces]="puzzlePiece"
-            [pieceHeight]="pieceHeight"
-            [isReset]="isPuzzleReset"
-          />
+          <app-game-board (isSolved)="receiveData($event)" />
         </div>
-      </ng-container>
-      <!-- stats -->
-      <!-- <app-stats [time]="time" [moves]="moves"></app-stats> -->
+      </div>
     </ng-container>
   </div>
   <ng-container *ngIf="isPuzzleSolved">

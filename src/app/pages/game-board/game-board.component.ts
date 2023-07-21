@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { IMAGE_LIST_DATA, MessageType } from 'src/app/core/constants/image.constant';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from 'src/app/core/constants/image.constant';
 import { PuzzlePiece } from 'src/app/core/models/image.model';
-import { ImagesService } from 'src/app/core/services/images.service';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
@@ -13,31 +11,100 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
-export class GameBoardComponent implements OnChanges {
+export class GameBoardComponent {
 
   imgPieces = IMAGE_LIST_DATA;
   dragged: any;
   puzzleSolved = false;
   puzzleOver = false;
-
-  @Input() pieceWidth!: number;
-  @Input() pieceHeight!: number;
-  @Input() pieces!: PuzzlePiece[];
-  @Input() isReset!: boolean;
+  puzzleImage!: string;
+  imageUploaded = false;
+  imgName = '';
+  puzzlePieces: PuzzlePiece[] = [];
 
   @Output() isSolved = new EventEmitter();
 
   constructor(
-    public sanitizer: DomSanitizer,
-    public imageService: ImagesService,
     public snackbarService: SnackbarService
   ) { }
 
-  ngOnChanges(): void {
-    this.isReset && this.resetPuzzle();
+  onImageUpload(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files as FileList;
+    if (file) {
+      if (!allowedFileType.includes(file[0].type)) {
+        this.snackbarService.showSnackbar('File type is not allowed', MessageType.error);
+        return;
+      }
+      this.imgName = file[0].name;
+      const reader = new FileReader();
+      const img = new Image();
+      reader.onload = () => {
+        img.src = reader.result as string;
+        img.onload = () => {
+          const width = img.naturalWidth;
+          const height = img.naturalHeight;
+          if (width !== IMAGE_WIDTH && height !== IMAGE_HEIGHT) {
+            this.snackbarService.showSnackbar('please select proper size of image', MessageType.error);
+            return;
+          }
+          this.puzzleImage = reader.result as string;
+          this.imageUploaded = true;
+          this.generatePuzzle();
+        }
+      };
+      reader.readAsDataURL(file[0]);
+    }
+  }
+
+  generatePuzzle(): void {
+    const pieces: PuzzlePiece[] | undefined = [];
+    const image = new Image();
+    image.src = this.puzzleImage;
+    image.onload = () => {
+      const imgWidth = Math.floor(image.width / 4);
+      const imgHeight = Math.floor(image.height / 4);
+      let count = 0;
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+          const piece = {
+            backgroundPosition: `-${imgWidth * j}px -${imgHeight * i}px`,
+            left: imgWidth * j,
+            top: imgHeight * i,
+            image: this.getPieceImage(image, count, String(count), imgWidth, imgHeight),
+            id: String(count)
+          };
+          count++;
+          pieces.push(piece);
+        }
+      }
+      this.puzzlePieces = pieces;
+      this.shufflePuzzlePieces(pieces);
+    };
+  }
+
+  getPieceImage(image: HTMLImageElement, pieceNumber: number, pieceId: string, pieceWidth: number, pieceHeight: number): string {
+    const canvas = document.createElement('canvas');
+    canvas.id = pieceId;
+    canvas.width = pieceWidth;
+    canvas.height = pieceHeight;
+    const ctx = canvas.getContext('2d');
+    const column = pieceNumber % 4;
+    const row = Math.floor(pieceNumber / 4);
+    ctx && ctx.drawImage(image, column * pieceWidth, row * pieceHeight, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
+    return canvas.toDataURL();
+  }
+
+
+  shufflePuzzlePieces(puzzlePieces: PuzzlePiece[]) {
+    for (let i = puzzlePieces.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [puzzlePieces[i], puzzlePieces[j]] = [puzzlePieces[j], puzzlePieces[i]];
+    }
   }
 
   resetPuzzle(): void {
+    this.generatePuzzle();
     this.imgPieces.forEach((img) => {
       const imageEle = document.getElementById(img.index);
       if (imageEle?.hasChildNodes()) {
@@ -45,12 +112,6 @@ export class GameBoardComponent implements OnChanges {
       }
       img.isValidPlaced = false;
       img.placed = false;
-      const newImage = {
-        ...img,
-        isValidPlaced: false,
-        placed: false
-      }
-      img = newImage;
     })
     this.checkPuzzleOver();
   }

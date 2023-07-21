@@ -14,8 +14,6 @@ import { ImageComponent } from "./image/image.component";
 })
 export class PagesComponent {
   isPuzzleSolved = false;
-  pieceHeight!: number;
-  pieceWidth!: number;
   puzzlePiece: PuzzlePiece[] = [];
   isPuzzleReset = false;
   imgPieces = IMAGE_LIST_DATA;
@@ -24,32 +22,12 @@ export class PagesComponent {
     this.isPuzzleSolved = event;
   }
 
-  getPieceHeight(height: number): void {
-    this.pieceHeight = height;
-  }
-
-  getPieceWidth(width: number): void {
-    this.pieceWidth = width;
-  }
-
-  getPuzzlePiece(pieces: PuzzlePiece[]): void {
-    this.puzzlePiece = pieces;
-  }
-
-  getPuzzleResetValue(val: boolean): void {
-    this.isPuzzleReset = val;
-  }
-
   onClose(): void {
     this.puzzlePiece = [];
     this.isPuzzleSolved = false;
     this.imgPieces.forEach((img) => {
-      const newImage = {
-        ...img,
-        isValidPlaced: false,
-        placed: false
-      }
-      img = newImage;
+      img.isValidPlaced = false;
+      img.placed = false;
     });
   }
 }
