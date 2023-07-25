@@ -1,11 +1,7 @@
 <div class="puzzle-bg">
   <div class="page-wrapper">
     <ng-container *ngIf="!isPuzzleSolved">
-      <div class="category-section">
-        <div class="board-section mt-20">
-          <app-game-board (isSolved)="receiveData($event)" />
-        </div>
-      </div>
+      <app-game-board (isSolved)="receiveData($event)" />
     </ng-container>
   </div>
   <ng-container *ngIf="isPuzzleSolved">

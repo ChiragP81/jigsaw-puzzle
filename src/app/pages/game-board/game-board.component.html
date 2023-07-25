@@ -5,35 +5,68 @@
       Browse Image
       <span class="material-symbols-outlined"> add_photo_alternate </span>
     </label>
-    <input type="file" id="previewImage" accept="image/*" (change)="onImageUpload($event)" hidden />
+    <input
+      type="file"
+      id="previewImage"
+      accept="image/*"
+      (change)="onImageUpload($event)"
+      hidden
+    />
   </div>
+  <p class="info-message">
+    <span class="material-symbols-outlined"> info </span>
+    Please Upload image 400*400 size.
+  </p>
 </ng-container>
 
 <ng-container *ngIf="puzzlePieces.length">
   <div class="game-container">
     <div class="image-container">
       <img [src]="puzzleImage" [alt]="imgName" />
-      <button class="close-btn" (click)="resetPuzzle()">
-        <i class="fa-solid fa-arrow-rotate-right"></i>
-      </button>
     </div>
-
-    <div class="wrapper">
-      <div class="board" [class.solved]="puzzleSolved">
-        <div *ngFor="let piece of imgPieces;" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
-          [class.placed]="piece.isValidPlaced" class="dropzone" [id]="piece.index">
+    <div class="game-content">
+      <div class="heading">Fit Puzzle Blocks</div>
+      <div class="timer-reset-group">
+        <div class="timer-container">
+          <div class="timer" id="minutes">05</div>
+          <div class="timer">:</div>
+          <div class="timer" id="seconds">00</div>
         </div>
+        <button
+          type="button"
+          class="reset-btn"
+          (click)="resetPuzzle()"
+          title="Reset"
+        >
+          <span class="material-symbols-outlined">directory_sync</span>
+        </button>
       </div>
     </div>
+    <div class="board" [class.solved]="puzzleSolved">
+      <div
+        *ngFor="let piece of imgPieces"
+        (drop)="onDrop($event)"
+        (dragover)="onDragOver($event)"
+        [class.placed]="piece.isValidPlaced"
+        class="dropzone"
+        [id]="piece.index"
+      ></div>
+    </div>
   </div>
-
+  <!-- end -->
   <div class="piece-container">
-    <div class="puzzle-piece m-2" *ngFor="let piece of puzzlePieces">
-      <img [src]="piece.image" alt="sample" [id]="piece.id" draggable="true" (dragstart)="onDrag($event)">
+    <div class="puzzle-piece" *ngFor="let piece of puzzlePieces">
+      <img
+        [src]="piece.image"
+        alt="sample"
+        [id]="piece.id"
+        draggable="true"
+        (dragstart)="onDrag($event)"
+      />
     </div>
   </div>
 </ng-container>
 
 <ng-container *ngIf="puzzleOver && !puzzleSolved">
-  <p> Oops ! You failed</p>
+  <p>Oops ! You failed</p>
 </ng-container>

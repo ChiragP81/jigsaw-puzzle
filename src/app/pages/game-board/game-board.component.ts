@@ -164,4 +164,24 @@ export class GameBoardComponent {
     this.puzzleOver = this.imgPieces.every((e) => e.placed);
     return this.puzzleOver;
   }
+
+// const targetTime: number = 5 * 60 * 1000;
+// const interval: number = setInterval(() => {
+//   const now: number = new Date().getTime();
+//   const timeRemaining: number = targetTime - now;
+
+//   if (timeRemaining < 0) {
+//     clearInterval(interval);
+//     return;
+//   }
+//   const minutes: number = Math.floor(timeRemaining / (1000 * 60));
+//   const seconds: number = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+//   const minutesElement: HTMLElement | null = document.getElementById("minutes");
+//   const secondsElement: HTMLElement | null = document.getElementById("seconds");
+//   if (minutesElement && secondsElement) {
+//     minutesElement.innerText = minutes.toString().padStart(2, "0");
+//     secondsElement.innerText = seconds.toString().padStart(2, "0");
+//   }
+// }, 1000);
+
 }

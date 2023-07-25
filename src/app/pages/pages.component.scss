@@ -124,5 +124,10 @@ $duration: 1000;
   }
   .page-wrapper {
     display: flex;
+    width: 100%;
+    app-game-board {
+      width: 100%;
+      padding: 3% 5%;
+    }
   }
 }
