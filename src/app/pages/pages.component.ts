@@ -3,14 +3,13 @@ import { Component } from '@angular/core';
 import { IMAGE_LIST_DATA } from '../core/constants/image.constant';
 import { PuzzlePiece } from '../core/models/image.model';
 import { GameBoardComponent } from "./game-board/game-board.component";
-import { ImageComponent } from "./image/image.component";
 
 @Component({
   selector: 'app-pages',
   standalone: true,
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.scss'],
-  imports: [ImageComponent, GameBoardComponent, NgIf]
+  imports: [GameBoardComponent, NgIf]
 })
 export class PagesComponent {
   isPuzzleSolved = false;
