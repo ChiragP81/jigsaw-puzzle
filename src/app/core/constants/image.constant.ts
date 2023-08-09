@@ -84,7 +84,15 @@ export const IMAGE_LIST_DATA = [
 export const IMAGE_WIDTH = 400;
 export const IMAGE_HEIGHT = 400;
 export const allowedFileType = ['image/png', 'image/jpeg', 'image/jpg'];
+
 export enum MessageType {
   success = "success",
   error = "error"
+}
+
+export const ErrorMessage = {
+  invalidFileType: "File type is not allowed",
+  invalidImageSize: "Please select proper size of image",
+  samePlacePieceError: "You can not place two piece at same place",
+  pieceMoveError: "You can not move solved puzzle"
 }
