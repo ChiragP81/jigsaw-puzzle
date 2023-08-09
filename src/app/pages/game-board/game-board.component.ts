@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from 'src/app/core/constants/image.constant';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from 'src/app/core/constants/image.constant';
 import { PuzzlePiece } from 'src/app/core/models/image.model';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
@@ -11,7 +11,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
-export class GameBoardComponent {
+export class GameBoardComponent implements OnDestroy {
 
   imgPieces = IMAGE_LIST_DATA;
   dragged: any;
@@ -20,9 +20,13 @@ export class GameBoardComponent {
   puzzleImage!: string;
   imageUploaded = false;
   imgName = '';
+  moves = 0;
+  OTPTimer: string = '';
+  timeInterval: any;
   puzzlePieces: PuzzlePiece[] = [];
 
   @Output() isSolved = new EventEmitter();
+  @Output() isOver = new EventEmitter();
 
   constructor(
     public snackbarService: SnackbarService
@@ -33,7 +37,7 @@ export class GameBoardComponent {
     const file = target.files as FileList;
     if (file) {
       if (!allowedFileType.includes(file[0].type)) {
-        this.snackbarService.showSnackbar('File type is not allowed', MessageType.error);
+        this.snackbarService.showSnackbar(ErrorMessage.invalidFileType, MessageType.error);
         return;
       }
       this.imgName = file[0].name;
@@ -45,7 +49,7 @@ export class GameBoardComponent {
           const width = img.naturalWidth;
           const height = img.naturalHeight;
           if (width !== IMAGE_WIDTH && height !== IMAGE_HEIGHT) {
-            this.snackbarService.showSnackbar('please select proper size of image', MessageType.error);
+            this.snackbarService.showSnackbar(ErrorMessage.invalidImageSize, MessageType.error);
             return;
           }
           this.puzzleImage = reader.result as string;
@@ -58,6 +62,7 @@ export class GameBoardComponent {
   }
 
   generatePuzzle(): void {
+    this.startTimer(300);
     const pieces: PuzzlePiece[] | undefined = [];
     const image = new Image();
     image.src = this.puzzleImage;
@@ -104,6 +109,7 @@ export class GameBoardComponent {
   }
 
   resetPuzzle(): void {
+    clearInterval(this.timeInterval);
     this.generatePuzzle();
     this.imgPieces.forEach((img) => {
       const imageEle = document.getElementById(img.index);
@@ -113,6 +119,7 @@ export class GameBoardComponent {
       img.isValidPlaced = false;
       img.placed = false;
     })
+    this.moves = 0;
     this.checkPuzzleOver();
   }
 
@@ -126,16 +133,16 @@ export class GameBoardComponent {
     const dropTarget = document.getElementById((<HTMLElement>ev.target)?.id);
 
     if (dropTarget && dropTarget.parentElement && dropTarget.parentElement?.className !== 'board') {
-      this.snackbarService.showSnackbar('You can not place two piece at same place', MessageType.error);
+      this.snackbarService.showSnackbar(ErrorMessage.samePlacePieceError, MessageType.error);
       return;
     }
 
     if (dropTarget?.hasChildNodes()) {
-      this.snackbarService.showSnackbar('You can not place two piece at same place', MessageType.error);
+      this.snackbarService.showSnackbar(ErrorMessage.samePlacePieceError, MessageType.error);
       return;
     }
     if (this.imgPieces[this.dragged.id].isValidPlaced) {
-      this.snackbarService.showSnackbar('You can not move solved puzzle', MessageType.error);
+      this.snackbarService.showSnackbar(ErrorMessage.pieceMoveError, MessageType.error);
       return;
     }
     const drop_id = (<HTMLElement>ev.target)?.id.split("_").at(-1);
@@ -143,11 +150,13 @@ export class GameBoardComponent {
       this.imgPieces[this.dragged.id].isValidPlaced = true;
     }
     this.imgPieces[this.dragged.id].placed = true;
+    this.moves++;
     this.dragged.classList.remove('m-2');
     this.dragged.remove(this.dragged);
     (<HTMLElement>ev.target).appendChild(this.dragged);
     this.checkPuzzleSolved();
     this.checkPuzzleOver();
+    this.isOver.emit(this.puzzleOver);
     this.isSolved.emit(this.puzzleSolved);
   }
 
@@ -165,23 +174,28 @@ export class GameBoardComponent {
     return this.puzzleOver;
   }
 
-// const targetTime: number = 5 * 60 * 1000;
-// const interval: number = setInterval(() => {
-//   const now: number = new Date().getTime();
-//   const timeRemaining: number = targetTime - now;
+  startTimer(remaining: number): void {
+    this.OTPTimer = '05:00';
+    this.timeInterval = setInterval(() => {
+      let m: string | number = Math.floor(remaining / 60);
+      let s: string | number = remaining % 60;
+      m = m < 10 ? '0' + m : m;
+      s = s < 10 ? '0' + s : s;
+      this.OTPTimer = m + ':' + s;
+      remaining--;
+      if (remaining === 0) {
+        this.puzzleOver = true;
+        this.puzzleSolved = false;
+        this.isOver.emit(this.puzzleOver);
+        this.isSolved.emit(this.puzzleSolved);
+        clearInterval(this.timeInterval);
+      }
+    }, 1000)
+  }
 
-//   if (timeRemaining < 0) {
-//     clearInterval(interval);
-//     return;
-//   }
-//   const minutes: number = Math.floor(timeRemaining / (1000 * 60));
-//   const seconds: number = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-//   const minutesElement: HTMLElement | null = document.getElementById("minutes");
-//   const secondsElement: HTMLElement | null = document.getElementById("seconds");
-//   if (minutesElement && secondsElement) {
-//     minutesElement.innerText = minutes.toString().padStart(2, "0");
-//     secondsElement.innerText = seconds.toString().padStart(2, "0");
-//   }
-// }, 1000);
-
+  ngOnDestroy(): void {
+    if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+    }
+  }
 }
