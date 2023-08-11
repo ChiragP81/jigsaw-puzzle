@@ -5,11 +5,9 @@
     </ng-container>
   </div>
   <ng-container *ngIf="isPuzzleOver">
-    <div class="justify-end">
-      <button class="close-btn" (click)="onClose()">
-        <i class="fa-regular fa-circle-xmark"></i>
-      </button>
-    </div>
+    <button class="close-btn" (click)="onClose()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
     <ng-container *ngIf="isPuzzleSolved">
       <div class="confetti">
         <div class="confetti-piece"></div>
