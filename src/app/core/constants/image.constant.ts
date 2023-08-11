@@ -96,3 +96,5 @@ export const ErrorMessage = {
   samePlacePieceError: "You can not place two piece at same place",
   pieceMoveError: "You can not move solved puzzle"
 }
+
+export const StorageKey = 'cp-puzzle-piece'

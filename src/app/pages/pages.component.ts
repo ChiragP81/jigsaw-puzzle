@@ -1,8 +1,9 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { IMAGE_LIST_DATA } from '../core/constants/image.constant';
-import { PuzzlePiece } from '../core/models/image.model';
-import { GameBoardComponent } from "./game-board/game-board.component";
+import { IMAGE_LIST_DATA } from '@constants/image.constant';
+import { PuzzlePiece } from '@models/image.model';
+import { GameBoardComponent } from "@pages/game-board/game-board.component";
+import { PuzzleService } from '@services/puzzle.service';
 
 @Component({
   selector: 'app-pages',
@@ -14,12 +15,15 @@ import { GameBoardComponent } from "./game-board/game-board.component";
 export class PagesComponent {
   isPuzzleSolved = false;
   puzzlePiece: PuzzlePiece[] = [];
-  isPuzzleReset = false;
   imgPieces = IMAGE_LIST_DATA;
   isPuzzleOver = false;
+  constructor(public puzzleService: PuzzleService) { }
 
   GetPuzzleSolvedValue(event: boolean): void {
     this.isPuzzleSolved = event;
+    if (this.isPuzzleSolved) {
+      this.puzzleService.clearPuzzlePieces();
+    }
   }
 
   onClose(): void {
@@ -29,9 +33,18 @@ export class PagesComponent {
       img.isValidPlaced = false;
       img.placed = false;
     });
+    this.puzzleService.clearPuzzlePieces();
   }
 
   getPuzzleOverValue(event: boolean): void {
     this.isPuzzleOver = event;
+  }
+
+  onTryAgain(): void {
+    this.isPuzzleOver = false;
+    this.imgPieces.forEach((img) => {
+      img.isValidPlaced = false;
+      img.placed = false;
+    });
   }
 }

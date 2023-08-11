@@ -29,8 +29,8 @@
       </div>
     </ng-container>
     <ng-container *ngIf="!isPuzzleSolved">
-        <div class="failed-message">Opps! you failed</div>
-        <button class="try-again" type="button">Try again</button>
+      <div class="failed-message">Opps! you failed</div>
+      <button class="try-again" type="button" (click)="onTryAgain()">Try again</button>
     </ng-container>
   </ng-container>
   <div class="create-by">

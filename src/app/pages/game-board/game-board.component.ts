@@ -1,8 +1,10 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
-import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from '@constants/image.constant';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, StorageKey, allowedFileType } from '@constants/image.constant';
 import { PuzzlePiece } from '@models/image.model';
+import { PuzzleService } from '@services/puzzle.service';
 import { SnackbarService } from '@services/snackbar.service';
+import { StorageService } from '@services/storage.service';
 
 @Component({
   selector: 'app-game-board',
@@ -11,7 +13,7 @@ import { SnackbarService } from '@services/snackbar.service';
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
-export class GameBoardComponent implements OnDestroy {
+export class GameBoardComponent implements OnDestroy, OnInit {
 
   imgPieces = IMAGE_LIST_DATA;
   dragged: any;
@@ -29,8 +31,22 @@ export class GameBoardComponent implements OnDestroy {
   @Output() isOver = new EventEmitter();
 
   constructor(
-    public snackbarService: SnackbarService
+    public snackbarService: SnackbarService,
+    private storageService: StorageService,
+    private puzzleService: PuzzleService
   ) { }
+
+  ngOnInit(): void {
+    this.puzzleService.puzzlePieceSubject$.subscribe((val: any) => {
+      if (val) {
+        this.puzzleImage = val.puzzleImage;
+        this.puzzlePieces = val.puzzlePieces;
+        this.generatePuzzle();
+      }
+      console.log(val);
+
+    })
+  }
 
   onImageUpload(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -106,6 +122,12 @@ export class GameBoardComponent implements OnDestroy {
       const j = Math.floor(Math.random() * (i + 1));
       [puzzlePieces[i], puzzlePieces[j]] = [puzzlePieces[j], puzzlePieces[i]];
     }
+    const puzzleDetails = {
+      puzzlePieces,
+      puzzleImage: this.puzzleImage
+
+    }
+    this.storageService.set(StorageKey, JSON.stringify(puzzleDetails));
   }
 
   resetPuzzle(): void {
@@ -124,16 +146,13 @@ export class GameBoardComponent implements OnDestroy {
   }
 
   onDrag(ev: DragEvent): void {
-    ev.dataTransfer?.setData("index", (<HTMLElement>ev.target)?.id);
+    ev.dataTransfer?.setData('text/plain', (<HTMLElement>ev.target)?.id);
     this.dragged = ev.target;
   }
 
   onDrop(ev: DragEvent): void {
     ev.preventDefault();
     const dropTarget = document.getElementById((<HTMLElement>ev.target)?.id);
-    console.log(this.dragged.parentElement);
-    console.log(this.dragged.id , 'id');
-
 
     if (dropTarget && dropTarget.parentElement && dropTarget.parentElement?.className !== 'board') {
       this.snackbarService.showSnackbar(ErrorMessage.samePlacePieceError, MessageType.error);
