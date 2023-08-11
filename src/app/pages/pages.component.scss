@@ -143,3 +143,16 @@ $duration: 1000;
     }
   }
 }
+.failed-message {
+  font-size: 4vw;
+  color: var(--color-red);
+}
+.try-again {
+  background: var(--color-yellow);
+  padding: 0 30px;
+  height: 46px;
+  border-radius: 30px;
+  border: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
