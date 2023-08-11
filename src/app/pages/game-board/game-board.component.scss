@@ -9,54 +9,37 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   span {
-    transform: scale(0.9);
     display: inline-block;
     color: var(--color-yellow);
-    text-shadow: 1px 8px 0px rgba(255,255,255,0.15);
+    text-shadow: 1px 8px 0px rgba(255, 255, 255, 0.15);
     will-change: transform;
   }
   span.word-1 {
     animation: text-effect 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards infinite alternate;
   }
   span.word-2 {
-    animation: text-effect-2 1s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards infinite alternate;
+    animation: text-effect-2 1s 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards infinite alternate;
+    margin-left: 1%;
   }
 }
-
-// @keyframes animated_text {
-//   0% {
-//     background-position: 0px 50%;
-//   }
-
-//   50% {
-//     background-position: 100% 50%;
-//   }
-
-//   100% {
-//     background-position: 0px 50%;
-//   }
-// }
-
 @keyframes text-effect {
   0% {
-    transform: scale(0.9);
+    transform: scale(0.9) rotateZ(-5deg);
   }
   50%,
   100% {
     transform: scale(1);
   }
 }
-
 @keyframes text-effect-2 {
   0% {
-    transform: scale(0.9);
+    transform: scale(0.9) rotateZ(5deg);
   }
   80%,
   100% {
-    transform: scale(1) rotateZ(-3deg);
+    transform: scale(1);
   }
 }
-
 .browser-btn {
   position: relative;
   text-align: center;
@@ -98,7 +81,7 @@
     }
 
     &:hover {
-      background-color: #edce6e;
+      background-color: var(--color-yellow-light);
 
       &::before {
         scale: 1.05 1.2;
@@ -128,7 +111,7 @@
 }
 
 .board .placed {
-  opacity: 0.3;
+  opacity: 0.7;
 }
 
 .board.solved .placed {
@@ -141,20 +124,26 @@ img {
   object-fit: cover;
 }
 .piece-container {
+  margin-top: 5%;
+  padding: 20px;
   display: flex;
-  justify-content: flex-start;
-  margin-top: 30px;
+  justify-content: center;
+  background: rgba(var(--color-white-rgb),0.15);
+  width: auto;
   .puzzle-piece {
     background-size: cover;
     max-width: 100px;
     max-height: 100px;
     margin: 0 2px;
     cursor: move;
+    &.remove-spacing {
+      margin: 0;
+    }
   }
 }
 
 .close-btn {
-  background-color: white;
+  background-color: var(--color-white);
   border: none;
   font-size: 28px;
   cursor: pointer;
@@ -195,13 +184,13 @@ img {
       margin-top: 30px;
       gap: 20px;
       .reset-btn {
-        width: 60px;
-        height: 60px;
+        width: 64px;
+        height: 64px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 100%;
-        border: 2px var(--color-white) solid;
+        border: 3px var(--color-white) solid;
         color: var(--color-white);
         background: var(--color-yellow);
         cursor: pointer;
@@ -210,12 +199,12 @@ img {
         }
       }
       .timer-container {
-        padding: 0 15px;
         display: flex;
         align-items: center;
+        padding: 0 30px;
         background: var(--color-red);
-        border-radius: 6px;
-        border: 2px solid var(--color-white);
+        border: 3px solid var(--color-white);
+        border-radius: 30px;
         .timer {
           font-size: 46px;
           line-height: 60px;

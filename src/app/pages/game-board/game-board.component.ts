@@ -131,6 +131,9 @@ export class GameBoardComponent implements OnDestroy {
   onDrop(ev: DragEvent): void {
     ev.preventDefault();
     const dropTarget = document.getElementById((<HTMLElement>ev.target)?.id);
+    console.log(this.dragged.parentElement);
+    console.log(this.dragged.id , 'id');
+
 
     if (dropTarget && dropTarget.parentElement && dropTarget.parentElement?.className !== 'board') {
       this.snackbarService.showSnackbar(ErrorMessage.samePlacePieceError, MessageType.error);
@@ -150,8 +153,8 @@ export class GameBoardComponent implements OnDestroy {
       this.imgPieces[this.dragged.id].isValidPlaced = true;
     }
     this.imgPieces[this.dragged.id].placed = true;
+    this.dragged.parentElement.classList.add('remove-spacing');
     this.moves++;
-    this.dragged.classList.remove('m-2');
     this.dragged.remove(this.dragged);
     (<HTMLElement>ev.target).appendChild(this.dragged);
     this.checkPuzzleSolved();
