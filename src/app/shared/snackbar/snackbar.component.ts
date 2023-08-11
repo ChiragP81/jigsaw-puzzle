@@ -1,12 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SnackbarService } from '@services/snackbar.service';
 import { Subscription } from 'rxjs';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-snackbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgIf, NgFor, NgClass],
   templateUrl: './snackbar.component.html',
   styleUrls: ['./snackbar.component.scss']
 })

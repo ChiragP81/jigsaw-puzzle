@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SnackbarComponent } from "./shared/snackbar/snackbar.component";
+import { SnackbarComponent } from '@shared/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-root',
