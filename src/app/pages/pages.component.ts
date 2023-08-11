@@ -16,17 +16,22 @@ export class PagesComponent {
   puzzlePiece: PuzzlePiece[] = [];
   isPuzzleReset = false;
   imgPieces = IMAGE_LIST_DATA;
+  isPuzzleOver = false;
 
-  receiveData(event: boolean): void {
+  GetPuzzleSolvedValue(event: boolean): void {
     this.isPuzzleSolved = event;
   }
 
   onClose(): void {
     this.puzzlePiece = [];
-    this.isPuzzleSolved = false;
+    this.isPuzzleOver = false;
     this.imgPieces.forEach((img) => {
       img.isValidPlaced = false;
       img.placed = false;
     });
+  }
+
+  getPuzzleOverValue(event: boolean): void {
+    this.isPuzzleOver = event;
   }
 }

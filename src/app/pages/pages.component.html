@@ -1,32 +1,38 @@
 <div class="puzzle-bg">
   <div class="page-wrapper">
-    <ng-container *ngIf="!isPuzzleSolved">
-      <app-game-board (isSolved)="receiveData($event)" />
+    <ng-container *ngIf="!isPuzzleOver">
+      <app-game-board (isSolved)="GetPuzzleSolvedValue($event)" (isOver)="getPuzzleOverValue($event)" />
     </ng-container>
   </div>
-  <ng-container *ngIf="isPuzzleSolved">
+  <ng-container *ngIf="isPuzzleOver">
     <div class="justify-end">
       <button class="close-btn" (click)="onClose()">
         <i class="fa-regular fa-circle-xmark"></i>
       </button>
     </div>
-
-    <div class="confetti">
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="confetti-piece"></div>
-      <div class="icon">Congratulations</div>
-    </div>
+    <ng-container *ngIf="isPuzzleSolved">
+      <div class="confetti">
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="icon">Congratulations</div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!isPuzzleSolved">
+      <div>
+        <h1>Opps! you failed</h1>
+      </div>
+    </ng-container>
   </ng-container>
   <div class="create-by">
     <p>Create By: <strong>Chirag Prajapati</strong></p>
