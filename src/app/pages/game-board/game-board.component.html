@@ -11,9 +11,8 @@
     <input type="file" id="previewImage" accept="image/*" (change)="onImageUpload($event)" hidden />
   </div>
   <p class="info-message">
-    <span class="material-symbols-outlined"> info </span>
-    Please Upload image 400*400 size. <br>
-    Supported Files: .jpg | .png | .jpeg
+    <span class="info-icon material-symbols-outlined">info</span>
+    <span class="content">Please Upload image 400*400 size. <br> Supported Files: .jpg | .png | .jpeg</span>
   </p>
 </ng-container>
 
@@ -31,7 +30,7 @@
         <button type="button" class="reset-btn" (click)="resetPuzzle()" title="Reset">
           <span class="material-symbols-outlined">directory_sync</span>
         </button>
-        <div class="timer-container">
+        <div class="timer-container moves-btn">
           <div class="timer">{{moves}}</div>
         </div>
       </div>

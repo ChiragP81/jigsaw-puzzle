@@ -97,16 +97,22 @@
   }
 }
 .info-message {
-  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  color: var(--color-white);
   font-size: 16px;
   line-height: 26px;
   text-align: center;
   margin: 15px 0 0;
-  span {
+  .info-icon {
     width: 24px;
     height: 24px;
     display: inline-block;
     vertical-align: middle;
+  }
+  .content {
+    margin-left: 5px;
+    text-align: left;
   }
 }
 
@@ -127,17 +133,22 @@ img {
   margin-top: 5%;
   padding: 20px;
   display: flex;
-  justify-content: center;
-  background: rgba(var(--color-white-rgb),0.15);
-  width: auto;
+  justify-content: flex-start;
+  background: rgba(var(--color-white-rgb), 0.15);
+  overflow-y: hidden;
+  overflow-x: auto;
   .puzzle-piece {
     background-size: cover;
     max-width: 100px;
+    min-width: 100px;
     max-height: 100px;
+    min-height: 100px;
     margin: 0 2px;
     cursor: move;
     &.remove-spacing {
       margin: 0;
+      min-width: auto;
+      min-height: auto;
     }
   }
 }
@@ -154,13 +165,18 @@ img {
   justify-content: space-between;
   align-items: center;
   .image-container {
+    display: flex;
+    min-width: 400px;
     max-width: 400px;
     width: 100%;
+    border: 1px var(--color-white) solid;
+    background: rgba(var(--color-white-rgb), 0.2);
   }
   .board {
     display: flex;
     flex-wrap: wrap;
-    width: 400px;
+    min-width: 400px;
+    max-width: 400px;
     border: 1px solid var(--color-white);
     .dropzone {
       flex: 0 0 25%;
@@ -169,6 +185,8 @@ img {
     }
   }
   .game-content {
+    margin: 0 15px;
+    text-align: center;
     .heading {
       font-size: 4vw;
       line-height: 4vw;
@@ -201,16 +219,21 @@ img {
       .timer-container {
         display: flex;
         align-items: center;
+        justify-content: center;
         padding: 0 30px;
         background: var(--color-red);
         border: 3px solid var(--color-white);
         border-radius: 30px;
+        width: 190px;
         .timer {
           font-size: 46px;
           line-height: 60px;
           font-weight: 600;
           color: var(--color-white);
           margin: 0 5px;
+        }
+        &.moves-btn {
+          width: 100px;
         }
       }
     }

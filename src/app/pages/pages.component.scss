@@ -1,8 +1,25 @@
 .close-btn {
-  background-color: transparent;
-  border: none;
-  font-size: 28px;
+  position: absolute !important;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-red);
+  border-radius: 100%;
+  transition: all 500ms;
   cursor: pointer;
+  z-index: 10 !important;
+  span {
+    color: var(--color-white);
+    font-size: 30px;
+  }
+  &:hover {
+    background: var(--color-yellow);
+  }
 }
 
 .justify-end {
@@ -23,14 +40,6 @@ $duration: 1000;
 
   @return $randomNum;
 }
-
-.icon {
-  font-size: 32px;
-  font-weight: bold;
-  letter-spacing: 32px;
-  position: relative;
-}
-
 .confetti {
   display: flex;
   justify-content: center;
@@ -128,6 +137,9 @@ $duration: 1000;
     app-game-board {
       width: 100%;
       padding: 3% 5%;
+      @media screen and (max-width: 1440px) {
+        padding: 3%;
+      }
     }
   }
   .create-by {
@@ -145,14 +157,35 @@ $duration: 1000;
 }
 .failed-message {
   font-size: 4vw;
+  font-weight: 600;
   color: var(--color-red);
+  text-shadow: 1px 6px 0px rgba(255, 255, 255, 0.1);
+  margin: 0 0 30px;
 }
 .try-again {
   background: var(--color-yellow);
+  border: 2px solid var(--color-white) !important;
   padding: 0 30px;
-  height: 46px;
+  height: 50px;
   border-radius: 30px;
   border: 0;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
+  cursor: pointer;
+}
+.congratulations-text {
+  position: relative;
+  font-size: 4vw;
+  font-weight: 700;
+  color: var(--color-yellow);
+  text-shadow: 1px 6px 0px rgba(255, 255, 255, 0.1);
+  animation: con-text-animation 1s infinite alternate;
+}
+@keyframes con-text-animation {
+  0% {
+    letter-spacing: 0;
+  }
+  100% {
+    letter-spacing: 10px;
+  }
 }
