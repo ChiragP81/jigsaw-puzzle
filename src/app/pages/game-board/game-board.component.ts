@@ -124,7 +124,10 @@ export class GameBoardComponent {
   onDrop(ev: DragEvent): void {
     ev.preventDefault();
     const dropTarget = document.getElementById((<HTMLElement>ev.target)?.id);
-
+    console.log(this.dragged.parentElement);
+    console.log(this.dragged.id , 'id');
+    
+    
     if (dropTarget && dropTarget.parentElement && dropTarget.parentElement?.className !== 'board') {
       this.snackbarService.showSnackbar('You can not place two piece at same place', MessageType.error);
       return;
@@ -143,7 +146,7 @@ export class GameBoardComponent {
       this.imgPieces[this.dragged.id].isValidPlaced = true;
     }
     this.imgPieces[this.dragged.id].placed = true;
-    this.dragged.classList.remove('m-2');
+    this.dragged.parentElement.classList.add('remove-spacing');
     this.dragged.remove(this.dragged);
     (<HTMLElement>ev.target).appendChild(this.dragged);
     this.checkPuzzleSolved();
