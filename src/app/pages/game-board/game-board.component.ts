@@ -1,13 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
-import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from 'src/app/core/constants/image.constant';
-import { PuzzlePiece } from 'src/app/core/models/image.model';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from '@constants/image.constant';
+import { PuzzlePiece } from '@models/image.model';
+import { SnackbarService } from '@services/snackbar.service';
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgIf, NgFor],
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
@@ -21,8 +21,8 @@ export class GameBoardComponent implements OnDestroy {
   imageUploaded = false;
   imgName = '';
   moves = 0;
-  OTPTimer: string = '';
-  timeInterval: any;
+  OTPTimer = '';
+  timeInterval!: ReturnType<typeof setInterval>;
   puzzlePieces: PuzzlePiece[] = [];
 
   @Output() isSolved = new EventEmitter();
