@@ -137,6 +137,9 @@ $duration: 1000;
     app-game-board {
       width: 100%;
       padding: 3% 5%;
+      @media screen and (max-width: 1440px) {
+        padding: 3%;
+      }
     }
   }
   .create-by {
