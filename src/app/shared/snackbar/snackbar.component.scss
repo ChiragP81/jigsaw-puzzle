@@ -9,19 +9,18 @@
   background-color: #fff;
 
   &.success {
-    border-left: 5px solid rgb(0, 173, 72);
-    color: rgb(0, 173, 72);
+    background: var(--color-green);
   }
 
   &.error {
-    border-left: 5px solid rgb(241, 56, 23);
-    color: rgb(241, 56, 23);
+    background: var(--color-error);
   }
 
   .snackbar-text {
-    text-align: center;
-    font-size: 16px;
-    font-family: 'system-ui', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: var(--color-white);
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: 500;
     margin: 0;
   }
 }
