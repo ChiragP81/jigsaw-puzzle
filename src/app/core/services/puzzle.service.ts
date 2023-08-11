@@ -9,18 +9,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PuzzleService {
 
-  public puzzlePieceSubject$ = new BehaviorSubject<PuzzleDetails[] | null | string>(null);
+  public puzzlePieceSubject$ = new BehaviorSubject<PuzzleDetails | null | string>(null);
+  public puzzlePiece$ = this.puzzlePieceSubject$.asObservable();
 
-  constructor(private storageService: StorageService) {
-    if (this.storageService.get(StorageKey)) {
-      this.puzzlePieceSubject$ = new BehaviorSubject<PuzzleDetails[] | null | string>(
-        JSON.parse(this.storageService.get(StorageKey) as string)
-      );
-      console.log(this.puzzlePieceSubject$);
-    }
+  constructor(private storageService: StorageService) { }
+
+  setPuzzleDetails(data: PuzzleDetails) {
+    this.puzzlePieceSubject$.next(data);
   }
-
-  clearPuzzlePieces() {
+  clearPuzzlePieces(): void {
     this.puzzlePieceSubject$.next(null);
     this.storageService.remove(StorageKey);
     this.storageService.clear();

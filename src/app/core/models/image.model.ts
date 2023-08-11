@@ -7,6 +7,6 @@ export interface PuzzlePiece {
 }
 
 export interface PuzzleDetails {
-  PuzzlePiece: PuzzlePiece[],
+  PuzzlePieces: PuzzlePiece[],
   puzzleImage: string
 }

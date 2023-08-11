@@ -1,10 +1,9 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, StorageKey, allowedFileType } from '@constants/image.constant';
+import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from '@constants/image.constant';
 import { PuzzlePiece } from '@models/image.model';
 import { PuzzleService } from '@services/puzzle.service';
 import { SnackbarService } from '@services/snackbar.service';
-import { StorageService } from '@services/storage.service';
 
 @Component({
   selector: 'app-game-board',
@@ -29,22 +28,20 @@ export class GameBoardComponent implements OnDestroy, OnInit {
 
   @Output() isSolved = new EventEmitter();
   @Output() isOver = new EventEmitter();
+  @Output() puzzleDetails = new EventEmitter();
 
   constructor(
     public snackbarService: SnackbarService,
-    private storageService: StorageService,
     private puzzleService: PuzzleService
   ) { }
 
   ngOnInit(): void {
-    this.puzzleService.puzzlePieceSubject$.subscribe((val: any) => {
+    this.puzzleService.puzzlePiece$.subscribe((val: any) => {
       if (val) {
         this.puzzleImage = val.puzzleImage;
         this.puzzlePieces = val.puzzlePieces;
         this.generatePuzzle();
       }
-      console.log(val);
-
     })
   }
 
@@ -122,12 +119,6 @@ export class GameBoardComponent implements OnDestroy, OnInit {
       const j = Math.floor(Math.random() * (i + 1));
       [puzzlePieces[i], puzzlePieces[j]] = [puzzlePieces[j], puzzlePieces[i]];
     }
-    const puzzleDetails = {
-      puzzlePieces,
-      puzzleImage: this.puzzleImage
-
-    }
-    this.storageService.set(StorageKey, JSON.stringify(puzzleDetails));
   }
 
   resetPuzzle(): void {
@@ -180,6 +171,11 @@ export class GameBoardComponent implements OnDestroy, OnInit {
     this.checkPuzzleOver();
     this.isOver.emit(this.puzzleOver);
     this.isSolved.emit(this.puzzleSolved);
+    const puzzleDetail = {
+      ...this.puzzlePieces,
+      puzzleImage: this.puzzleImage
+    }
+    this.puzzleDetails.emit(puzzleDetail);
   }
 
   onDragOver(ev: DragEvent): void {

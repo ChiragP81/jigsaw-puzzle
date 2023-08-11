@@ -1,4 +1,4 @@
-<ng-container *ngIf="!puzzlePieces.length">
+<ng-container *ngIf="!puzzlePieces?.length">
   <h1 class="animation-text">
     <span class="word-1">Jigsaw</span>
     <span class="word-2">Puzzle</span>
@@ -16,7 +16,7 @@
   </p>
 </ng-container>
 
-<ng-container *ngIf="puzzlePieces.length">
+<ng-container *ngIf="puzzlePieces?.length">
   <div class="game-container">
     <div class="image-container">
       <img [src]="puzzleImage" [alt]="imgName" />

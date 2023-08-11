@@ -1,7 +1,8 @@
 <div class="puzzle-bg">
   <div class="page-wrapper">
     <ng-container *ngIf="!isPuzzleOver">
-      <app-game-board (isSolved)="GetPuzzleSolvedValue($event)" (isOver)="getPuzzleOverValue($event)" />
+      <app-game-board (isSolved)="GetPuzzleSolvedValue($event)" (isOver)="getPuzzleOverValue($event)"
+        (puzzleDetails)="getPuzzleDetails($event)" />
     </ng-container>
   </div>
   <ng-container *ngIf="isPuzzleOver">
