@@ -2,6 +2,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { provideHttpClient } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideNoopAnimations } from '@angular/platform-browser/animations';
 import { routes } from '@core/routes/app.routes';
@@ -12,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     BrowserModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     { provide: 'LOCALSTORAGE', useFactory: getLocalStorage },
     provideNoopAnimations()
   ],
