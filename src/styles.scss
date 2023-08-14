@@ -24,3 +24,14 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.mat-mdc-dialog-container {
+  padding: 0px !important;
+
+}
+
+.img-cropper-dialog {
+  .mat-dialog-container {
+    padding: 0;
+  }
+}

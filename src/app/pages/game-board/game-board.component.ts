@@ -1,14 +1,17 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { ErrorMessage, IMAGE_HEIGHT, IMAGE_LIST_DATA, IMAGE_WIDTH, MessageType, allowedFileType } from '@constants/image.constant';
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { ErrorMessage, IMAGE_LIST_DATA, MessageType, allowedFileType } from '@constants/image.constant';
 import { PuzzlePiece } from '@models/image.model';
 import { PuzzleService } from '@services/puzzle.service';
 import { SnackbarService } from '@services/snackbar.service';
+import { ImgCropperComponent } from '@shared/img-cropper/img-cropper.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, MatDialogModule],
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
@@ -30,9 +33,12 @@ export class GameBoardComponent implements OnDestroy, OnInit {
   @Output() isOver = new EventEmitter();
   @Output() puzzleDetails = new EventEmitter();
 
+  unSubscribeAll: Subject<void> = new Subject();
+
   constructor(
     public snackbarService: SnackbarService,
-    private puzzleService: PuzzleService
+    private puzzleService: PuzzleService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -48,29 +54,29 @@ export class GameBoardComponent implements OnDestroy, OnInit {
   onImageUpload(event: Event): void {
     const target = event.target as HTMLInputElement;
     const file = target.files as FileList;
+
     if (file) {
       if (!allowedFileType.includes(file[0].type)) {
         this.snackbarService.showSnackbar(ErrorMessage.invalidFileType, MessageType.error);
         return;
       }
       this.imgName = file[0].name;
-      const reader = new FileReader();
-      const img = new Image();
-      reader.onload = () => {
-        img.src = reader.result as string;
-        img.onload = () => {
-          const width = img.naturalWidth;
-          const height = img.naturalHeight;
-          if (width !== IMAGE_WIDTH && height !== IMAGE_HEIGHT) {
-            this.snackbarService.showSnackbar(ErrorMessage.invalidImageSize, MessageType.error);
-            return;
-          }
-          this.puzzleImage = reader.result as string;
-          this.imageUploaded = true;
-          this.generatePuzzle();
+      const dialogRef = this.matDialog.open(ImgCropperComponent, {
+        panelClass: "img-cropper-dialog",
+        width: "auto",
+        height: "auto",
+        disableClose: true,
+        data: {
+          imageChangedEvent: event,
+          aspectRatio: 1 / 1,
+          imageFormat: file[0].type.split("/").at(-1),
+          fileType: file[0].type,
         }
-      };
-      reader.readAsDataURL(file[0]);
+      })
+      dialogRef.afterClosed().pipe(takeUntil(this.unSubscribeAll)).subscribe((result) => {
+        this.puzzleImage = result;
+        this.generatePuzzle();
+      });
     }
   }
 
@@ -214,6 +220,10 @@ export class GameBoardComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     if (this.timeInterval) {
       clearInterval(this.timeInterval);
+    }
+    if (this.unSubscribeAll) {
+      this.unSubscribeAll.next();
+      this.unSubscribeAll.complete();
     }
   }
 }
