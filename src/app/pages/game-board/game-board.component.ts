@@ -51,6 +51,10 @@ export class GameBoardComponent implements OnDestroy, OnInit {
     })
   }
 
+  onFileClick(event: any): void {
+    event.target.value = null;
+  }
+
   onImageUpload(event: Event): void {
     const target = event.target as HTMLInputElement;
     const file = target.files as FileList;
