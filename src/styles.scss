@@ -1,5 +1,5 @@
 :root {
-  --color-white: #FFFFFF;
+  --color-white: #ffffff;
   --color-white-rgb: 255, 255, 255;
   --color-black: #000000;
   --color-black-rgb: 0, 0, 0;
@@ -27,11 +27,19 @@ body {
 
 .mat-mdc-dialog-container {
   padding: 0px !important;
-
 }
 
 .img-cropper-dialog {
-  .mat-dialog-container {
-    padding: 0;
+  .image-cropper-container {
+    & > div {
+      display: flex;
+    }
+  }
+  .mdc-dialog__container {
+    margin: 16px;
+    .modal-body {
+      overflow: auto;
+      max-height: 65vh;
+    }
   }
 }

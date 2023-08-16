@@ -63,8 +63,7 @@ export class GameBoardComponent implements OnDestroy, OnInit {
       this.imgName = file[0].name;
       const dialogRef = this.matDialog.open(ImgCropperComponent, {
         panelClass: "img-cropper-dialog",
-        width: "auto",
-        height: "auto",
+        maxWidth: '800px',
         disableClose: true,
         data: {
           imageChangedEvent: event,
