@@ -1,31 +1,38 @@
-<ng-container *ngIf="!isOverPuzzle">
-  <!-- image -->
-  <div class="category-section mt-20">
-    <app-image />
+<div class="puzzle-bg">
+  <div class="page-wrapper">
+    <ng-container *ngIf="!isPuzzleOver">
+      <app-game-board (isSolved)="GetPuzzleSolvedValue($event)" (isOver)="getPuzzleOverValue($event)"
+        (puzzleDetails)="getPuzzleDetails($event)" />
+    </ng-container>
   </div>
-  <!-- game board -->
-  <div class="board-section mt-20">
-    <app-game-board (isOver)="receiveData($event)" />
+  <ng-container *ngIf="isPuzzleOver">
+    <button class="close-btn" (click)="onClose()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <ng-container *ngIf="isPuzzleSolved">
+      <div class="confetti">
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="icon congratulations-text">Congratulations</div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!isPuzzleSolved">
+      <div class="failed-message">Opps! you failed</div>
+      <button class="try-again" type="button" (click)="onTryAgain()">Try again</button>
+    </ng-container>
+  </ng-container>
+  <div class="create-by">
+    <p>Create By: <strong>Chirag Prajapati</strong></p>
   </div>
-  <!-- stats -->
-  <!-- <app-stats [time]="time" [moves]="moves" [fails]="fails"></app-stats> -->
-</ng-container>
-
-<ng-container *ngIf="isOverPuzzle">
-  <div class="confetti">
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="confetti-piece"></div>
-    <div class="icon">Congratulations</div>
-  </div>
-</ng-container>
+</div>

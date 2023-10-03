@@ -1,0 +1,26 @@
+.snackbar-wrap {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 5px;
+  border-radius: 5px;
+  min-width: 20%;
+  transform-origin: center center;
+  background-color: #fff;
+
+  &.success {
+    background: var(--color-green);
+  }
+
+  &.error {
+    background: var(--color-error);
+  }
+
+  .snackbar-text {
+    color: var(--color-white);
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+  }
+}

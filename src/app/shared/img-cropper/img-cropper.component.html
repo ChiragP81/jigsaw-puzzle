@@ -1,0 +1,24 @@
+<div class="dialog-wrapper">
+  <div class="dialog-header">
+    <div class="heading">Image cropping and upload</div>
+    <button class="close-btn" mat-dialog-close>
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <image-cropper
+      [imageChangedEvent]="data.imageChangedEvent"
+      class="image-cropper-container"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="data.aspectRatio"
+      [format]="data.imageFormat"
+      (imageCropped)="imageCropped($event)"
+      [cropperStaticHeight]="400"
+      [cropperStaticWidth]="400"
+      output="base64"
+    ></image-cropper>
+  </div>
+  <div class="action-button">
+    <button class="crop" type="button" (click)="closeModal()">Crop</button>
+  </div>
+</div>

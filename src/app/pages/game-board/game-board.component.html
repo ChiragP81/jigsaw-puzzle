@@ -1,13 +1,50 @@
-<div class="wrapper">
-  <div class="board" [class.over]="over">
-    <div *ngFor="let piece of imgPieces;" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
-      [class.placed]="!piece.misplaced" class="dropzone" [id]="piece.index">
+<ng-container *ngIf="!puzzlePieces?.length">
+  <h1 class="animation-text">
+    <span class="word-1">Jigsaw</span>
+    <span class="word-2">Puzzle</span>
+  </h1>
+  <div class="browser-btn">
+    <label class="choose-btn" for="previewImage">
+      Browse Image
+      <span class="material-symbols-outlined"> add_photo_alternate </span>
+    </label>
+    <input type="file" id="previewImage" accept="image/*" (click)="onFileClick($event)" (change)="onImageUpload($event)"
+      hidden />
+  </div>
+  <p class="info-message">
+    <span class="info-icon material-symbols-outlined">info</span>
+    <span class="content">Please Upload image 400*400 size. <br> Supported Files: .jpg | .png | .jpeg</span>
+  </p>
+</ng-container>
+
+<ng-container *ngIf="puzzlePieces?.length">
+  <div class="game-container">
+    <div class="image-container">
+      <img [src]="puzzleImage" [alt]="imgName" />
+    </div>
+    <div class="game-content">
+      <div class="heading">Fit Puzzle Blocks</div>
+      <div class="timer-reset-group">
+        <div class="timer-container">
+          <div class="timer">{{OTPTimer}}</div>
+        </div>
+        <button type="button" class="reset-btn" (click)="resetPuzzle()" title="Reset">
+          <span class="material-symbols-outlined">directory_sync</span>
+        </button>
+        <div class="timer-container moves-btn">
+          <div class="timer">{{moves}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="board" [class.solved]="puzzleSolved">
+      <div *ngFor="let piece of imgPieces" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
+        [class.placed]="piece.isValidPlaced" class="dropzone" [id]="piece.index"></div>
     </div>
   </div>
-
-</div>
-<div class="img-wrapper">
-  <div *ngFor="let image of images" class="img-item m-5">
-    <img [src]="'assets/images/img-piece/' + image.src" [id]="image.id" draggable="true" (dragstart)="onDrag($event)">
+  <!-- end -->
+  <div class="piece-container">
+    <div class="puzzle-piece" *ngFor="let piece of puzzlePieces">
+      <img [src]="piece.image" alt="sample" [id]="piece.id" draggable="true" (dragstart)="onDrag($event)" />
+    </div>
   </div>
-</div>
+</ng-container>
